@@ -1,0 +1,84 @@
+<html>
+  <head>
+    <style>
+        img{
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+
+  </head>
+  <body>
+    <h1>Mobile Shop</h1>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price</th>
+      </tr>
+      <tr>
+        <td>iPhone XS</td>
+        <td>Best iPhone ever</td>
+        <td>999$</td>
+      </tr>
+      <tr>
+        <td>iPhone XS</td>
+        <td>Best iPhone ever</td>
+        <td>999$</td>
+      </tr>
+      <tr>
+        <td>iPhone XS</td>
+        <td>Best iPhone ever</td>
+        <td>999$</td>
+      </tr>
+      <tr>
+        <td>iPhone XS</td>
+        <td><a href="#"><img src="LOGO.jpg"></a>999$</td>
+        <td></td>
+      </tr>
+    </table>
+
+    <div id="messageboard"></div>
+    <input type="text" id="myMessage" />
+    <input type="button" value="Send" onclick="addMessage()" />
+
+    <script>
+
+        function addMessage(){
+            var message = document.getElementById("myMessage").value;
+            var messageBoard = document.getElementById("messageboard");
+            var newMessage = document.createElement("div");
+            newMessage.innerText = message;
+            messageBoard.appendChild(newMessage);
+        }
+        
+        window.onload = function() {
+            console.log("windows on load working");
+            //var tds = document.getElementsByTagName("td");
+            var tds = document.querySelectorAll("td");
+
+            for (var i = 0; i < tds.length; i++){
+                //add event listener for mouse enter
+                tds[i].addEventListener("mouseenter", mouseEnteringTD);
+                //add event listener for mouse leaving
+                tds[i].addEventListener("mouseleave", mouseLeavingTD);
+            }
+
+            var body = document.getElementsByTagName("body")[0];
+            body.addEventListener("mouseenter", mouseEnteringTD);
+
+        }
+
+        function mouseEnteringTD(event){
+            var td = event.target;
+            td.style.fontSize = "200%";
+        }
+
+        function mouseLeavingTD(event){
+            var td = event.target;
+            td.style.fontSize = "100%";
+        }
+
+    </script>
+  </body>
+</html>
