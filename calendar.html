@@ -115,11 +115,10 @@
                 //Add a day cell on my calendar
                 var child = document.createElement("div"); //creating container
                 child.className = "day"; //assign class to container
-                appointments[i] = [];
+                appointments[i] = []; //initialize the empty appointments array for the given day
 
                 //Add click eventListener
                 child.addEventListener("click", selectDay);
-                //child.addEventListener("mouseenter", showHoverAppoints);
 
                 var displayDay = document.createElement("h3"); //creating the "display number"
                 displayDay.innerText = i+1; //assigning the current day (in the loop)
@@ -129,38 +128,39 @@
         }
 
         function AddMeeting(){
-            var meetingTime = document.getElementById("newMeetingTime").value;
-            var meetingName = document.getElementById("newMeetingName").value;
-            var meetingDay = document.getElementById("newMeetingDay").innerText;
+            var meetingTime = document.getElementById("newMeetingTime").value; //getting ref to meeting time
+            var meetingName = document.getElementById("newMeetingName").value; //getting ref to meeting name
+            var meetingDay = document.getElementById("newMeetingDay").innerText; //getting the content of meeting day (like 24)
 
-            var day = parseInt(meetingDay) -1;
-            appointments[day].push(meetingTime + " : " + meetingName);
+            var day = parseInt(meetingDay) -1; //Arrays start from 0, so the element of the day number X will be in position X-1 (24 will be in pos 23)
+            appointments[day].push(meetingTime + " : " + meetingName); //add the appointment as a string like 10-10 : Meet up with Tobia
 
-            //get the specific cell
-            var calendar = document.getElementById("calendar");
-            var calendarCell = calendar.children[day];
+            var calendar = document.getElementById("calendar"); //getting ref to calendar
+            var calendarCell = calendar.children[day]; //accessing to the nth children. In position X-1 we'll have the reference to the cell of the day X
 
-            if (appointments[day].length == 1){
-                calendarCell.classList.add("withEvent");
+            if (appointments[day].length == 1){ //if there is only one appoinment in the array (the one we just added, so the first one for the day)
+                calendarCell.classList.add("withEvent"); //add the class to the cell to show that the day has appointments
             }
 
-            showAppointments(day);
+            showAppointments(day); //Show appointments for the day
         }
 
-        function showHoverAppoints(event){
-            console.log(event.currentTarget.innerText);
+        // function showHoverAppoints(event){
+        //     console.log(event.currentTarget.innerText);
 
-            var hoveringDay = parseInt(event.currentTarget.innerText);
-            showAppointments(hoveringDay - 1);
-        }
+        //     var hoveringDay = parseInt(event.currentTarget.innerText);
+        //     showAppointments(hoveringDay - 1);
+        // }
 
         function showAppointments(day) {
-            var appointmentsForTheDay = appointments[day];
-            var appList = document.getElementById("appointmentsList");
+            var appointmentsForTheDay = appointments[day]; //get the appointments for the day
+            var appList = document.getElementById("appointmentsList"); //get a ref to the loist
             appList.innerHTML = ''; //REMOVING previous appointments;
             
+            //if there are no appointments (length or array === 0), hide, otherwise show
             document.getElementById("appointments").style.display = appointmentsForTheDay.length === 0 ? "none" : "block";
 
+            //SAME THING AS
             // if (appointmentsForTheDay.length === 0){
             //     document.getElementById("appointments").style.display = 'none';
             // }
@@ -168,39 +168,28 @@
             //     document.getElementById("appointments").style.display = 'block';
             // }
 
-            for (var i = 0; i < appointmentsForTheDay.length; i++){
-                var newListItem = document.createElement("li");
-                newListItem.innerText = appointmentsForTheDay[i];
-                appList.appendChild(newListItem);
+            for (var i = 0; i < appointmentsForTheDay.length; i++){ //foreach appointment
+                var newListItem = document.createElement("li"); //create a new LI
+                newListItem.innerText = appointmentsForTheDay[i]; //set the content of the single appointment
+                appList.appendChild(newListItem); //append to the list
             }
         }
 
+        //this method is invoked when clicking on a day
         function selectDay(event){
-            var selectedDay = event.target.innerText;
+            var selectedDay = event.target.innerText; //in target we have the cell that has been clicked, the innerText is the number of the day
 
-            var newMeetingDay = document.getElementById("newMeetingDay");
-            newMeetingDay.innerText = selectedDay;
+            var newMeetingDay = document.getElementById("newMeetingDay"); //Get a reference to new Meeting Day
+            newMeetingDay.innerText = selectedDay; //display the day into the form
 
-            var days = document.getElementsByClassName("day");
-            for (var i = 0; i < days.length; i++){
-                days[i].classList.remove("selected");
+            var days = document.getElementsByClassName("day"); //get a reference to every day
+            for (var i = 0; i < days.length; i++){ //foreach day
+                days[i].classList.remove("selected"); //remove the selected class
             }
-            //event.target.className ="selected";
-            //1) we were targeting the h3, not the DIV
-            // event.target.parentElement insted of simply event.target
-            //2) we were assign the class, replacing the previous one
-            // event.target.parentElement.classList.add("selected") instead of event.target.parentElement.className = "selected";
-            if (event.target.tagName === "DIV"){
-                //if we are on the div, attach the class
-                 event.target.classList.add("selected");
-            }
-            else {
-                //otherwise, attach it to my parent
-                 event.target.parentElement.classList.add("selected");
-            }
-            //event.currentTarget.classList.add("selected");
 
-            showAppointments(parseInt(selectedDay) - 1);
+            event.currentTarget.classList.add("selected"); //add the selected class to the div
+
+            showAppointments(parseInt(selectedDay) - 1); //show appointments for the day
         }
         </script>
     </body>
